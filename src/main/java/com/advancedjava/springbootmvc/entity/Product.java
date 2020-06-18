@@ -26,7 +26,7 @@ public class Product {
     Integer quantity;
     String description;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "categoryId")
     Category category;
 

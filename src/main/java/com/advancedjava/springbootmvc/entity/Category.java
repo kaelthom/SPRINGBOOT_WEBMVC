@@ -11,9 +11,16 @@ public class Category {
 	Integer id;
 	String name	;
 	String nameVN;
-	
+	/*
 	@OneToMany(mappedBy="category", fetch= FetchType.EAGER)
-	List<Product> products;
+	List<Product> products;*/
+
+	public Category() {
+	}
+
+	public Category(String name) {
+		this.name = name;
+	}
 
 	public Integer getId() {
 		return id;
@@ -38,12 +45,12 @@ public class Category {
 	public void setNameVN(String nameVN) {
 		this.nameVN = nameVN;
 	}
-
+/*
 	public List<Product> getProducts() {
 		return products;
 	}
 
 	public void setProducts(List<Product> products) {
 		this.products = products;
-	}
+	}*/
 }
