@@ -14,14 +14,14 @@ import java.util.List;
 @EnableWebMvc
 @Configuration
 public class ApiConfiguration implements WebMvcConfigurer {
-    public MappingJackson2HttpMessageConverter jsonConvert(){
+    public MappingJackson2HttpMessageConverter jsonConvert() {
         MappingJackson2HttpMessageConverter jsonConverter = new MappingJackson2HttpMessageConverter();
         ObjectMapper objectMapper = jsonConverter.getObjectMapper();
         Hibernate5Module module = new Hibernate5Module();
         module.disable(Hibernate5Module.Feature.USE_TRANSIENT_ANNOTATION);
         module.disable(Hibernate5Module.Feature.FORCE_LAZY_LOADING);
         module.disable(Hibernate5Module.Feature.WRITE_MISSING_ENTITIES_AS_NULL);
-        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
+        objectMapper.setSerializationInclusion(JsonInclude.Include.ALWAYS);
         objectMapper.registerModule(module);
 
         return jsonConverter;
