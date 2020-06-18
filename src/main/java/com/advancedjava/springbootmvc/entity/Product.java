@@ -1,5 +1,8 @@
 package com.advancedjava.springbootmvc.entity;
 
+import com.advancedjava.springbootmvc.dto.JsonMapping;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -13,25 +16,40 @@ import java.util.List;
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonView(JsonMapping.OnlyPrimitiveFields.class)
     Integer id;
     @NotNull
+    @JsonView(JsonMapping.OnlyPrimitiveFields.class)
     String name;
+    @JsonView(JsonMapping.OnlyPrimitiveFields.class)
     Double unitPrice;
+    @JsonView(JsonMapping.OnlyPrimitiveFields.class)
     String image;
     @DateTimeFormat(pattern = "MM/dd/yyyy")
     @Temporal(TemporalType.DATE)
     Date productDate;
+    @JsonView(JsonMapping.OnlyPrimitiveFields.class)
     Boolean available;
     //Integer categoryId;
+    @JsonView(JsonMapping.OnlyPrimitiveFields.class)
     Integer quantity;
+    @JsonView(JsonMapping.OnlyPrimitiveFields.class)
     String description;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonIgnoreProperties("products")
     @JoinColumn(name = "categoryId")
+    @JsonView(JsonMapping.ProductWithCategory.class)
     Category category;
 
     @OneToMany(mappedBy = "product")
+    @JsonView(JsonMapping.ProductComplete.class)
     List<OrderDetail> orderDetails;
+
+    @JsonIgnoreProperties("products")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonView(JsonMapping.ProductWithProvider.class)
+    private Provider provider;
 
     public Product() {
     }
@@ -127,4 +145,13 @@ public class Product {
                 ", description='" + description + '\'' +
                 '}';
     }
+
+    public Provider getProvider() {
+        return provider;
+    }
+
+    public void setProvider(Provider provider) {
+        this.provider = provider;
+    }
+
 }

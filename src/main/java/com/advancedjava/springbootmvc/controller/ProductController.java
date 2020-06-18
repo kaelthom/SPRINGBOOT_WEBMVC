@@ -1,8 +1,9 @@
 package com.advancedjava.springbootmvc.controller;
 
+import com.advancedjava.springbootmvc.dto.JsonMapping;
 import com.advancedjava.springbootmvc.entity.Product;
 import com.advancedjava.springbootmvc.repository.ProductRepository;
-import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,16 +22,24 @@ public class ProductController {
     @Autowired
     ProductRepository productRepository;
 
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    @JsonView(JsonMapping.ProductComplete.class)
+    @GetMapping("/products/complete")
+    public List<Product> findAllComplete() {
+        return productRepository.findAll();
+
+    }
+
+    @JsonView(JsonMapping.OnlyPrimitiveFields.class)
     @GetMapping("/products")
     public List<Product> findAll() {
         return productRepository.findAll();
 
     }
+
     @GetMapping("/products/{id}")
     public ResponseEntity<Product> findOne(@PathVariable int id) {
         Optional<Product> optionalProduct = productRepository.findById(id);
-        Product product = optionalProduct.isPresent()?optionalProduct.get():null;
+        Product product = optionalProduct.isPresent() ? optionalProduct.get() : null;
         HttpStatus status;
         if (product == null) {
             status = HttpStatus.NOT_FOUND;
@@ -40,6 +49,7 @@ public class ProductController {
         return new ResponseEntity<>(product, status);
 
     }
+
     @GetMapping("/products-fake")
     public List<Product> findAllFake() {
         List<Product> products = new ArrayList<>();
@@ -48,13 +58,15 @@ public class ProductController {
         return products;
 
     }
+
     @PostMapping("/products/add")
     public void add(@RequestBody @Valid Product product) {
         productRepository.save(product);
     }
+
     @PutMapping("/products/edit/{id}")
     public void edit(@RequestBody @Valid Product product, @PathVariable int id) throws Exception {
-        if (product.getId()!=null && id != product.getId()) {
+        if (product.getId() != null && id != product.getId()) {
             throw new Exception("incoherence between ids");
         }
         productRepository.save(product);
@@ -66,11 +78,11 @@ public class ProductController {
             throw new Exception("product not found");
         }
         Product product = productRepository.findById(id).get();
-        if(id!=product.getId() ) {
+        if (id != product.getId()) {
             throw new Exception("incoherence between ids");
         }
 
-        fields.forEach((key,value) -> {
+        fields.forEach((key, value) -> {
             Field field = ReflectionUtils.findField(Product.class, key);
             ReflectionUtils.makeAccessible(field);
             ReflectionUtils.setField(field, product, value);

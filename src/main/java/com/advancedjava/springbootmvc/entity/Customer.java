@@ -7,82 +7,90 @@ import javax.persistence.Table;
 import java.util.List;
 
 @Entity
-@Table(name="Customers")
+@Table(name = "Customers")
 public class Customer {
-	@Id
-	String id;
-	String password;
-	String fullname;
-	String email;
-	String photo;
-	Boolean activated;
-	Boolean admin = false;
-		
-	@OneToMany(mappedBy="customer")
-	List<Order> orders;
+    @Id
+    String id;
+    String password;
+    String fullname;
+    String email;
+    String photo;
+    Boolean activated;
+    Boolean admin = false;
 
-	public String getId() {
-		return id;
-	}
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    @OneToMany(mappedBy = "customer")
+    List<Order> orders;
 
-	public String getPassword() {
-		return password;
-	}
+    public Customer() {
+    }
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    public Customer(String id) {
+        this.id = id;
+    }
 
-	public String getFullname() {
-		return fullname;
-	}
+    public String getId() {
+        return id;
+    }
 
-	public void setFullname(String fullname) {
-		this.fullname = fullname;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	public String getEmail() {
-		return email;
-	}
+    public String getPassword() {
+        return password;
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-	public String getPhoto() {
-		return photo;
-	}
+    public String getFullname() {
+        return fullname;
+    }
 
-	public void setPhoto(String photo) {
-		this.photo = photo;
-	}
+    public void setFullname(String fullname) {
+        this.fullname = fullname;
+    }
 
-	public Boolean getActivated() {
-		return activated;
-	}
+    public String getEmail() {
+        return email;
+    }
 
-	public void setActivated(Boolean activated) {
-		this.activated = activated;
-	}
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-	public List<Order> getOrders() {
-		return orders;
-	}
+    public String getPhoto() {
+        return photo;
+    }
 
-	public void setOrders(List<Order> orders) {
-		this.orders = orders;
-	}
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
 
-	public Boolean getAdmin() {
-		return admin;
-	}
+    public Boolean getActivated() {
+        return activated;
+    }
 
-	public void setAdmin(Boolean admin) {
-		this.admin = admin;
-	}
-	
+    public void setActivated(Boolean activated) {
+        this.activated = activated;
+    }
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
+    }
+
+    public Boolean getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(Boolean admin) {
+        this.admin = admin;
+    }
+
 }
